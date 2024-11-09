@@ -19,8 +19,13 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::group(['middleware'=> ['role:mahasiswa']], function () {
-Route::get('/books',[BookController::class,'index']);
+Route::get('/view/books',[BookController::class,'index']);
 Route::get('/books/{id}',[BookController::class,'search']);
 });
+
+Route::group(['middleware'=> ['role:pustakawan']], function () {
+    Route::get('/manage/books',[BookController::class,'index']);
+    Route::get('/books/{id}',[BookController::class,'search']);
+    });
 
 require __DIR__.'/auth.php';
