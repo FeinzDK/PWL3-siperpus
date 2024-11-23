@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Bookshelf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Pdf;
 
 class BookController extends Controller
 {
@@ -101,5 +102,10 @@ class BookController extends Controller
             'alert-type' => 'success'
         );
         return redirect()->route('book')->with($notification);
+    }
+    public function printToPdf(){
+        $data['books'] = Book::with('bookshelf')->get();
+        $pdf = Pdf::loadView('books.print',$data);
+        return $pdf->download('ListBuku.pdf');
     }
 }
